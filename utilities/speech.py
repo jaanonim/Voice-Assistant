@@ -1,5 +1,6 @@
 import sys
 import threading
+from subprocess import call
 
 import pyttsx3
 import speech_recognition as sr
@@ -85,9 +86,10 @@ class Speaker:
         self.engine.setProperty("voice", voices[1].id)
 
     def speak(self, text):
-        self.printMessage(text)
-        self.engine.say(text)
-        self.engine.runAndWait()
+        call(["py", "utilities\speak.py", text])
+        # self.printMessage(text)
+        # self.engine.say(text)
+        # self.engine.runAndWait()
 
     def printMessage(self, msg):
         print(f"OUTPUT: {msg}")
