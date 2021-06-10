@@ -1,8 +1,10 @@
+import os
 import sys
 import threading
 from subprocess import call
 
 import pyttsx3
+import simpleaudio as sa
 import speech_recognition as sr
 from settings import Settings
 
@@ -10,9 +12,9 @@ from settings import Settings
 class Listener:
     def __init__(self, process_func, invocation):
         self.process_func = process_func
+        self.invocation = None
         if invocation:
             self.invocation = invocation.lower()
-        self.invocation = None
         self.active = False
 
         self.r = sr.Recognizer()
@@ -54,13 +56,20 @@ class Listener:
         else:
             if self.invocation:
                 if not self.invocation in comm:
+                    callback()
                     return
                 _, comm = comm.split(self.invocation, 1)
 
             comm = comm.strip()
+            print(comm)
             if comm:
                 self.active = self.process_func(comm)
             else:
+                wave_obj = sa.WaveObject.from_wave_file(
+                    "assets/sounds/notification.wav"
+                )
+                play_obj = wave_obj.play()
+
                 self.active = True
         if self.active == None:
             self.active = False

@@ -23,7 +23,6 @@ class Command:
                     v = v.replace(reg[i + 1], "")
                     self.args.append((args[i].replace("{", "").replace("}", ""), v))
                 self.cuurent_alias = a
-                print(self.args)
                 return True
         return False
 

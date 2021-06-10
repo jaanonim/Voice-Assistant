@@ -10,7 +10,7 @@ class IO:
 
     def run(self):
         if self.inputVoice:
-            Listener(self.func, None)
+            Listener(self.func, Settings.getInstance().get("invocation"))
             while True:
                 pass
         else:

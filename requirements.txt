@@ -3,3 +3,4 @@ pyjokes
 pyttsx3
 pyaudio
 requests
+simpleaudio
