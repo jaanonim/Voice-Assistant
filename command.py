@@ -35,10 +35,10 @@ class Command:
             obj = get_class("arguments", name)
             if obj:
                 v = obj.get_value(value)
-                if v:
-                    self.values.append(v)
-                else:
+                if v is None:
                     return arg
+                else:
+                    self.values.append(v)
             else:
                 raise NameError(
                     f"Cannont find file named {name}.py with correct class name in argumments!"
