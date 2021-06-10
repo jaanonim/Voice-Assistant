@@ -7,6 +7,17 @@ def load_commands():
     for f in os.listdir("commands"):
         if f.endswith(".py"):
             f = str(f).replace(".py", "")
-            name = "".join(x for x in f.title() if not x == "_")
-            commands.append(getattr(importlib.import_module(f"commands.{f}"), name))
+            commands.append(get_class("commands", f))
     return commands
+
+
+def convert_to_pascal_case(text):
+    return "".join(x for x in text.title() if not x == "_")
+
+
+def get_class(dir, name):
+    n = convert_to_pascal_case(name)
+    try:
+        return getattr(importlib.import_module(f"{dir}.{name}"), n)
+    except:
+        return None

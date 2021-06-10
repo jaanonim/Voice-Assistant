@@ -86,10 +86,11 @@ class Speaker:
         self.engine.setProperty("voice", voices[1].id)
 
     def speak(self, text):
-        call(["py", "utilities\speak.py", text])
+        # call(["py", "utilities\speak.py", text])
         # self.printMessage(text)
         # self.engine.say(text)
         # self.engine.runAndWait()
+        pass
 
     def printMessage(self, msg):
         print(f"OUTPUT: {msg}")
