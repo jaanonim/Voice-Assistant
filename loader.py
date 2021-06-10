@@ -1,5 +1,6 @@
 import importlib
 import os
+import re
 
 
 def load_commands():
@@ -13,6 +14,10 @@ def load_commands():
 
 def convert_to_pascal_case(text):
     return "".join(x for x in text.title() if not x == "_")
+
+
+def convert_to_snake_case(text):
+    return re.sub(r"(?<!^)(?=[A-Z])", "_", text).lower()
 
 
 def get_class(dir, name):

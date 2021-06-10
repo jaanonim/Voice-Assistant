@@ -6,6 +6,7 @@ from subprocess import call
 import pyttsx3
 import simpleaudio as sa
 import speech_recognition as sr
+from loader import convert_to_snake_case
 from settings import Settings
 
 
@@ -15,14 +16,17 @@ class Listener:
         self.invocation = None
         if invocation:
             self.invocation = invocation.lower()
+        self.inputVoice = Settings.getInstance().get("inputVoice")
         self.active = False
+        self.command = None
+        self.wave_obj = None
 
+    def setup(self):
         self.r = sr.Recognizer()
         self.mic = sr.Microphone()
 
         with self.mic as source:
             self.r.adjust_for_ambient_noise(source)
-
         self.listen()
 
     def listen(self):
@@ -52,7 +56,23 @@ class Listener:
 
     def proccess_command(self, comm, callback):
         if self.active:
-            self.active = self.process_func(comm)
+            if self.command:
+                atr, com = self.command
+                v = atr.get_value(comm)
+                if v:
+                    com.values.append(v)
+                    v, res, o = com._execute()
+                    Speaker.getInstance().speak(res)
+                    self.active = False
+                    self.command = False
+                    callback()
+                    return
+                else:
+                    self.active = False
+                    self.command = False
+                    callback()
+                    return
+            self.active, self.command = self.process_func(comm)
         else:
             if self.invocation:
                 if not self.invocation in comm:
@@ -61,19 +81,26 @@ class Listener:
                 _, comm = comm.split(self.invocation, 1)
 
             comm = comm.strip()
-            print(comm)
             if comm:
-                self.active = self.process_func(comm)
+                self.active, self.command = self.process_func(comm)
             else:
-                wave_obj = sa.WaveObject.from_wave_file(
-                    "assets/sounds/notification.wav"
-                )
-                play_obj = wave_obj.play()
-
+                self.notify()
                 self.active = True
         if self.active == None:
             self.active = False
+        if self.command:
+            self.notify()
         callback()
+
+    def notify(self):
+        if not self.inputVoice:
+            return
+        if not self.wave_obj:
+            self.wave_obj = sa.WaveObject.from_wave_file(
+                "assets/sounds/notification.wav"
+            )
+
+        self.wave_obj.play()
 
 
 class Speaker:

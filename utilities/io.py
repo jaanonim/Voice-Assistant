@@ -9,12 +9,14 @@ class IO:
         self.inputVoice = Settings.getInstance().get("inputVoice")
 
     def run(self):
+
         if self.inputVoice:
-            Listener(self.func, Settings.getInstance().get("invocation"))
+            Listener(self.func, Settings.getInstance().get("invocation")).setup()
             while True:
                 pass
         else:
+            l = Listener(self.func, None)
             while True:
                 inp = input("INPUT: ")
                 if inp:
-                    self.func(inp)
+                    l.proccess_command(inp, lambda: None)

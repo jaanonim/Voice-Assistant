@@ -12,11 +12,13 @@ def process_command(comm):
         obj = c(comm)
         if obj.check():
             print("")
-            v, res, _ = obj.execute()
+            v, res, o = obj.execute()
             Speaker.getInstance().speak(res)
-            return v
+            if o:
+                return True, (o, obj)
+            return v, None
     print("")
-    return False
+    return False, None
 
 
 def main():
