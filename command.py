@@ -26,8 +26,7 @@ class Command:
         return False
 
     def validate_args(self):
-        self.values = []
-
+        self.values = {}
         for arg in self.args:
             name, value, resp = arg
             obj = get_class("arguments", name)
@@ -36,7 +35,7 @@ class Command:
                 if v is None:
                     return resp, obj
                 else:
-                    self.values.append(v)
+                    self.values[name] = v
             else:
                 raise NameError(
                     f"Cannont find file named {name}.py with correct class name in argumments!"
