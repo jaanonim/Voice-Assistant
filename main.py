@@ -1,5 +1,6 @@
 from loader import load_commands
-from utilities.speech import Listener, Speaker
+from utilities.io import IO
+from utilities.speech import Speaker
 
 
 def process_command(comm):
@@ -13,11 +14,7 @@ def process_command(comm):
 
 
 def main():
-    Listener(process_command, None)
-    while True:
-        inp = input()
-        if inp:
-            process_command(inp)
+    IO(process_command).run()
 
 
 if __name__ == "__main__":

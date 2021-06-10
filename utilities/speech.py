@@ -4,6 +4,7 @@ from subprocess import call
 
 import pyttsx3
 import speech_recognition as sr
+from settings import Settings
 
 
 class Listener:
@@ -81,16 +82,12 @@ class Speaker:
         else:
             Speaker.__instance = self
 
-        self.engine = pyttsx3.init()
-        voices = self.engine.getProperty("voices")
-        self.engine.setProperty("voice", voices[1].id)
+        self.outputVoice = Settings.getInstance().get("outputVoice")
 
     def speak(self, text):
-        # call(["py", "utilities\speak.py", text])
-        # self.printMessage(text)
-        # self.engine.say(text)
-        # self.engine.runAndWait()
-        pass
+        self.printMessage(text)
+        if self.outputVoice:
+            call(["py", "utilities\speak.py", text])
 
     def printMessage(self, msg):
         print(f"OUTPUT: {msg}")
