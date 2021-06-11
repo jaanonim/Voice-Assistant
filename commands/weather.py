@@ -1,18 +1,9 @@
-import datetime
 import json
 
 import weathercom
+from arguments.date import now, week
 from command import Command
-
-week = [
-    "sunday",
-    "monday",
-    "tuesday",
-    "wednesday",
-    "thursday",
-    "friday",
-    "saturday",
-]
+from settings import Settings
 
 
 class Weather(Command):
@@ -24,16 +15,15 @@ class Weather(Command):
         say = ""
         data = json.loads(
             weathercom.getCityWeatherDetails(
-                city="bangalore", queryType="ten-days-data"
+                city=Settings.getInstance().get("weatherCity"), queryType="ten-days-data"
             )
         )["vt1dailyForecast"]["day"]["narrative"]
 
         v = self.values.get("date")
         if v:
             date, days = v
-            now = int(datetime.datetime.now().strftime("%w"))
             for d in range(0, days):
-                x = (now + date + d) % 7
+                x = (now() + date + d) % 7
 
                 say += f"On {week[x]}: {data[date + d]} "
         else:

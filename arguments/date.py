@@ -13,6 +13,10 @@ week = [
 ]
 
 
+def now():
+    return int(datetime.datetime.now().strftime("%w"))
+
+
 class Date(Argument):
     @staticmethod
     def get_value(value):
@@ -23,7 +27,7 @@ class Date(Argument):
         if "tomorrow" in value:
             return 1, 1
 
-        now = int(datetime.datetime.now().strftime("%w"))
+        n = now()
         days = 1
         date = 0
 
@@ -32,13 +36,13 @@ class Date(Argument):
 
         if "weekend" in value:
             days = 3
-            if now == 1:
+            if n == 1:
                 date += 4
-            elif now == 2:
+            elif n == 2:
                 date += 3
-            elif now == 3:
+            elif n == 3:
                 date += 2
-            elif now == 4:
+            elif n == 4:
                 date += 1
 
         elif "week" in value:
@@ -47,7 +51,7 @@ class Date(Argument):
         else:
             for i in range(0, 7):
                 if week[i] in value:
-                    x = i - now
+                    x = i - n
                     if x <= 0:
                         x += 7
                     date += x
