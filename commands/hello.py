@@ -2,8 +2,8 @@ from command import Command
 
 
 class Hello(Command):
-    def __init__(self, comm):
-        super().__init__(comm)
+    def __init__(self):
+        super().__init__()
         self.aliases = ["hello", "hi", "good morning"]
 
     def _execute(self):

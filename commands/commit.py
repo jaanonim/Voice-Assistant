@@ -3,8 +3,8 @@ from command import Command
 
 
 class Commit(Command):
-    def __init__(self, comm):
-        super().__init__(comm)
+    def __init__(self):
+        super().__init__()
         self.aliases = ["commit"]
 
     def _execute(self):

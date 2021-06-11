@@ -1,4 +1,7 @@
 from loader import load_commands
+from network.client import Client
+from network.server import Server
+from settings import Settings
 from utilities.io import IO
 from utilities.speech import Speaker
 
@@ -9,8 +12,8 @@ def process_command(comm):
     global commands
     for c in commands:
         print(".", end="")
-        obj = c(comm)
-        if obj.check():
+        obj = c()
+        if obj.check(comm):
             print("")
             v, res, o = obj.execute()
             Speaker.getInstance().speak(res)
@@ -25,7 +28,11 @@ def main():
     global commands
     print("Loading commands...")
     commands = load_commands()
-    IO(process_command).run()
+    if Settings.getInstance().get("isClient"):
+        Client(commands)
+    else:
+        Server.getInstance()
+        IO(process_command).run()
 
 
 if __name__ == "__main__":

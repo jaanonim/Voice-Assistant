@@ -61,7 +61,7 @@ class Listener:
                 v = atr.get_value(comm)
                 if v:
                     com.values[convert_to_snake_case(atr.__name__)] = v
-                    v, res, o = com._execute()
+                    v, res, o = com.exec_target()
                     Speaker.getInstance().speak(res)
                     self.active = False
                     self.command = False

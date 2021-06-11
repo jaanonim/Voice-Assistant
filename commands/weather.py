@@ -7,15 +7,16 @@ from settings import Settings
 
 
 class Weather(Command):
-    def __init__(self, comm):
-        super().__init__(comm)
+    def __init__(self):
+        super().__init__()
         self.aliases = ["weather {date| }", "weather"]
 
     def _execute(self):
         say = ""
         data = json.loads(
             weathercom.getCityWeatherDetails(
-                city=Settings.getInstance().get("weatherCity"), queryType="ten-days-data"
+                city=Settings.getInstance().get("weatherCity"),
+                queryType="ten-days-data",
             )
         )["vt1dailyForecast"]["day"]["narrative"]
 

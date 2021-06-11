@@ -1,23 +1,25 @@
 import re
 
 from loader import get_class
+from network.server import Server
 
 
 class Command:
-    def __init__(self, comm):
-        self.comm = f" {comm.lower()} "
+    def __init__(self):
         self.aliases = []
+        self.target = "server"
 
     def to_regex(self, alias):
         return re.split("{.*}", alias), re.findall("{.*}", alias)
 
-    def check(self):
+    def check(self, comm):
+        comm = f" {comm.lower()} "
         for a in self.aliases:
             reg, args = self.to_regex(f" {a.lower()} ")
-            if re.search(".*".join(reg), self.comm):
+            if re.search(".*".join(reg), comm):
                 self.args = []
                 for i in range(0, len(args)):
-                    v = re.findall(f"{reg[i]}.*{reg[i+1]}", self.comm)[0]
+                    v = re.findall(f"{reg[i]}.*{reg[i+1]}", comm)[0]
                     v = v.replace(reg[i], "")
                     v = v.replace(reg[i + 1], "")
                     name, resp = args[i].replace("{", "").replace("}", "").split("|")
@@ -47,7 +49,16 @@ class Command:
         if invalid:
             resp, obj = invalid
             return True, resp, obj
-        return self._execute()
+        return self.exec_target()
+
+    def exec_target(self):
+        if self.target == "server":
+            return self._execute()
+
+        else:
+            return Server.getInstance().sendCommand(
+                self.target, __name__, self.values
+            )
 
     def _execute(self):
         pass

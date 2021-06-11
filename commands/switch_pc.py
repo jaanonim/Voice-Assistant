@@ -2,9 +2,10 @@ from command import Command
 
 
 class SwitchPc(Command):
-    def __init__(self, comm):
-        super().__init__(comm)
+    def __init__(self):
+        super().__init__()
         self.aliases = ["Turn {on_off|I did not hear turn on or off?} PC"]
+        self.target = "pc"
 
     def _execute(self):
         return (
