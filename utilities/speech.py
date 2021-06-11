@@ -123,7 +123,7 @@ class Speaker:
     def speak(self, text):
         self.printMessage(text)
         if self.outputVoice:
-            call(["py", "utilities\speak.py", text])
+            call(["py", "utilities\speak.py", str(text)])
 
     def printMessage(self, msg):
         print(f"OUTPUT: {msg}")

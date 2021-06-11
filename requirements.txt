@@ -4,3 +4,4 @@ pyttsx3
 pyaudio
 requests
 simpleaudio
+weathercom
