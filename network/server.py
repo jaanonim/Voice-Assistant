@@ -26,10 +26,11 @@ class Server:
         self.clients = {}
         self.size = 1024
         self.port = Settings.getInstance().get("serverPort")
+        self.addres = Settings.getInstance().get("serverAdres")
         self.connectino_msg = "HI MY NAME IS"
 
         self.server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.server.bind((socket.gethostbyname(socket.gethostname()), self.port))
+        self.server.bind((self.addres, self.port))
 
         print("[SERVER] Starting...")
         thread = threading.Thread(name="server", target=self.run)
