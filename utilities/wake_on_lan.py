@@ -2,7 +2,7 @@ import socket
 import struct
 
 
-def WakeUp(macaddress, broadcast):
+def wake_up(macaddress, broadcast):
     data = "".join(["FFFFFFFFFFFF", macaddress * 20])
     send_data = b""
 
