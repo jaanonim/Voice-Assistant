@@ -9,10 +9,11 @@ import speech_recognition as sr
 from loader import convert_to_snake_case
 from settings import Settings
 
+from utilities.command_processor import CommandProcessor
+
 
 class Listener:
-    def __init__(self, process_func, invocation):
-        self.process_func = process_func
+    def __init__(self, invocation):
         self.invocation = None
         if invocation:
             self.invocation = invocation.lower()
@@ -72,7 +73,7 @@ class Listener:
                     self.command = False
                     callback()
                     return
-            self.active, self.command = self.process_func(comm)
+            self.active, self.command = CommandProcessor.getInstance().process(comm)
         else:
             if self.invocation:
                 if not self.invocation in comm:
@@ -82,7 +83,7 @@ class Listener:
 
             comm = comm.strip()
             if comm:
-                self.active, self.command = self.process_func(comm)
+                self.active, self.command = CommandProcessor.getInstance().process(comm)
             else:
                 self.notify()
                 self.active = True

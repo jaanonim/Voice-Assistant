@@ -4,16 +4,16 @@ import threading
 import time
 
 from settings import Settings
+from utilities.command_processor import CommandProcessor
 
 
 class Client:
-    def __init__(self, commands):
+    def __init__(self):
         self.size = 1024
         self.name = Settings.getInstance().get("name")
         self.server_port = Settings.getInstance().get("serverPort")
-        self.server_addres = "192.168.0.27"
+        self.server_addres = Settings.getInstance().get("serverAdres")
         self.connectino_msg = "HI MY NAME IS"
-        self.commands = commands
 
         self.client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         print("[CLIENT] Starting...")
@@ -48,13 +48,13 @@ class Client:
             if code == "COM":
                 data = json.loads(comm)
             print(data)
-            com_name = data.get("command")
+            comm_name = data.get("command")
             not_found = True
-            for com in self.commands:
-                if comm.__name__ == com_name:
-                    com()
-                    com.values = data.get("args")
-                    v, res, _ = com._execute()
+            for item in CommandProcessor.getInstance().commands:
+                if comm.__name__ == comm_name:
+                    c = item()
+                    c.values = data.get("args")
+                    v, res, _ = c._execute()
                     self.send("OK:" + json.dumps({"continue": v, "response": res}))
                     not_found = False
                     break
