@@ -18,6 +18,7 @@ class StartPc(Command):
             "Turn off computer",
             "Shutdown computer",
         ]
+        self.target = "pc"
 
     def _execute(self):
         subprocess.call("shutdown /s /t 10")

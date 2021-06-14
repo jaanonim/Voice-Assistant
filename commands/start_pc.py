@@ -19,7 +19,7 @@ class StartPc(Command):
         ]
 
     def _execute(self):
-        wake_up(Settings.getInstance().get("pc_mac"),Settings.getInstance().get("brodcast"))
+        wake_up(Settings.getInstance().get("pcMacAdres"),Settings.getInstance().get("brodcastAdres"))
         return (
             False,
             f"OK. Turning on PC.",

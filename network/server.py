@@ -4,6 +4,8 @@ import sys
 import threading
 import time
 
+from settings import Settings
+
 
 class Server:
     __instance = None
@@ -23,7 +25,7 @@ class Server:
 
         self.clients = {}
         self.size = 1024
-        self.port = 5050
+        self.port = Settings.getInstance().get("serverPort")
         self.connectino_msg = "HI MY NAME IS"
 
         self.server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)

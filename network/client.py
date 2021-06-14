@@ -3,12 +3,14 @@ import socket
 import threading
 import time
 
+from settings import Settings
+
 
 class Client:
     def __init__(self, commands):
         self.size = 1024
-        self.name = "pc"
-        self.server_port = 5050
+        self.name = Settings.getInstance().get("name")
+        self.server_port = Settings.getInstance().get("serverPort")
         self.server_addres = "192.168.0.27"
         self.connectino_msg = "HI MY NAME IS"
         self.commands = commands
