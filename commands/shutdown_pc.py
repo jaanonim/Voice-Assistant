@@ -7,14 +7,14 @@ from settings import Settings
 from utilities.wake_on_lan import wake_up
 
 
-class StartPc(Command):
+class ShutdownPc(Command):
     def __init__(self):
         super().__init__()
         self.aliases = [
             "Turn off my PC",
             "Turn off PC",
-            "Start PC",
-            "Shutdown off my computer",
+            "Shutdown PC",
+            "Turn off my computer",
             "Turn off computer",
             "Shutdown computer",
         ]
