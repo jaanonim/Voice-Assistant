@@ -1,6 +1,7 @@
 from settings import Settings
 
-from utilities.speech import Listener, Speaker
+from .listener import Listener
+from .speaker import Speaker
 
 
 class IO:

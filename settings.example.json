@@ -7,6 +7,6 @@
     "invocation": "robot",
     "pcMacAdres": "00-00-00-00-00",
     "brodcastAdres": "192.168.0.255",
-    "serverPort": "5050",
+    "serverPort": 5050,
     "serverAdres": "192.168.0.1"
 }

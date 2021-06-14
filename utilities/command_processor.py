@@ -1,9 +1,11 @@
 from loader import load_commands
 
-from utilities.speech import Speaker
+from .speaker import Speaker
 
 
 class CommandProcessor:
+    __instance = None
+
     @staticmethod
     def getInstance():
         if CommandProcessor.__instance == None:

@@ -1,7 +1,6 @@
 import os
 import sys
 import threading
-from subprocess import call
 
 import pyttsx3
 import simpleaudio as sa
@@ -9,7 +8,8 @@ import speech_recognition as sr
 from loader import convert_to_snake_case
 from settings import Settings
 
-from utilities.command_processor import CommandProcessor
+from .command_processor import CommandProcessor
+from .speaker import Speaker
 
 
 class Listener:
@@ -102,29 +102,3 @@ class Listener:
             )
 
         self.wave_obj.play()
-
-
-class Speaker:
-    __instance = None
-
-    @staticmethod
-    def getInstance():
-        if Speaker.__instance == None:
-            Speaker()
-        return Speaker.__instance
-
-    def __init__(self):
-        if Speaker.__instance != None:
-            raise Exception("This class is a singleton!")
-        else:
-            Speaker.__instance = self
-
-        self.outputVoice = Settings.getInstance().get("outputVoice")
-
-    def speak(self, text):
-        self.printMessage(text)
-        if self.outputVoice:
-            call(["py", "utilities\speak.py", str(text)])
-
-    def printMessage(self, msg):
-        print(f"OUTPUT: {msg}")
