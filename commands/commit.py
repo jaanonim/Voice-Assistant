@@ -1,5 +1,5 @@
 import requests
-from command import Command
+from classes.command import Command
 
 
 class Commit(Command):

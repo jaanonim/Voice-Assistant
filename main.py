@@ -1,11 +1,12 @@
 from network.client import Client
 from network.server import Server
-from settings import Settings
 from utilities.command_processor import CommandProcessor
 from utilities.io import IO
+from utilities.settings import Settings
 
 
 def main():
+    Settings.getInstance()
     CommandProcessor.getInstance()
     if Settings.getInstance().get("isClient"):
         Client()

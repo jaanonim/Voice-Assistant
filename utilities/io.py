@@ -1,6 +1,5 @@
-from settings import Settings
-
 from .listener import Listener
+from .settings import Settings
 from .speaker import Speaker
 
 

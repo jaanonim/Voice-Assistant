@@ -3,7 +3,7 @@ import socket
 import threading
 import time
 
-from settings import Settings
+from utilities.settings import Settings
 from utilities.command_processor import CommandProcessor
 
 

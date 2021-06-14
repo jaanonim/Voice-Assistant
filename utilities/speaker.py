@@ -1,6 +1,6 @@
 from subprocess import call
 
-from settings import Settings
+from .settings import Settings
 
 
 class Speaker:
@@ -23,7 +23,7 @@ class Speaker:
     def speak(self, text):
         self.printMessage(text)
         if self.outputVoice:
-            call(["python", "utilities\speak.py", str(text)])
+            call(["python", "utilities/speak.py", str(text)])
 
     def printMessage(self, msg):
         print(f"OUTPUT: {msg}")

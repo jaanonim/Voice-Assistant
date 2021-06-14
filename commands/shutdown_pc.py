@@ -2,8 +2,8 @@ import ipaddress
 import socket
 import subprocess
 
-from command import Command
-from settings import Settings
+from classes.command import Command
+from utilities.settings import Settings
 from utilities.wake_on_lan import wake_up
 
 

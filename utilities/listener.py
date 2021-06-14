@@ -5,10 +5,10 @@ import threading
 import pyttsx3
 import simpleaudio as sa
 import speech_recognition as sr
-from loader import convert_to_snake_case
-from settings import Settings
 
 from .command_processor import CommandProcessor
+from .loader import convert_to_snake_case
+from .settings import Settings
 from .speaker import Speaker
 
 

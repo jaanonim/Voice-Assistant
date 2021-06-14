@@ -1,4 +1,4 @@
-from argument import Argument
+from classes.argument import Argument
 
 
 class OnOff(Argument):

@@ -4,7 +4,7 @@ import sys
 import threading
 import time
 
-from settings import Settings
+from utilities.settings import Settings
 
 
 class Server:
@@ -84,5 +84,6 @@ class Server:
                 raise
             except:
                 return False, "Cannot send command to client.", None
+                self.clients.pop(c)
         else:
             return False, "Wrong client name or clinet did not connect.", None

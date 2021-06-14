@@ -1,6 +1,6 @@
 import datetime
 
-from argument import Argument
+from classes.argument import Argument
 
 week = [
     "sunday",

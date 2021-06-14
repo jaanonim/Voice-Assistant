@@ -1,5 +1,4 @@
-from loader import load_commands
-
+from .loader import load_commands
 from .speaker import Speaker
 
 

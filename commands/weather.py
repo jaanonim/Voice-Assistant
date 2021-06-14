@@ -2,8 +2,8 @@ import json
 
 import weathercom
 from arguments.date import now, week
-from command import Command
-from settings import Settings
+from classes.command import Command
+from utilities.settings import Settings
 
 
 class Weather(Command):

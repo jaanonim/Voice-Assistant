@@ -1,8 +1,8 @@
 import ipaddress
 import socket
 
-from command import Command
-from settings import Settings
+from classes.command import Command
+from utilities.settings import Settings
 from utilities.wake_on_lan import wake_up
 
 
@@ -19,7 +19,10 @@ class StartPc(Command):
         ]
 
     def _execute(self):
-        wake_up(Settings.getInstance().get("pcMacAdres"),Settings.getInstance().get("brodcastAdres"))
+        wake_up(
+            Settings.getInstance().get("pcMacAdres"),
+            Settings.getInstance().get("brodcastAdres"),
+        )
         return (
             False,
             f"OK. Turning on PC.",
