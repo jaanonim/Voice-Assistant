@@ -27,19 +27,19 @@ class Client:
                 while True:
                     try:
                         self.send(f"{self.connectino_msg} {self.name}")
-                    except:
-                        break
+                    except Exception as e:
+                        print(e)
+                        continue
                     msg = self.client.recv(self.size).decode()
                     code, info = msg.split(":", 1)
                     print("[CLIENT] " + info)
                     if code == "OK":
-                        return
+                        self.listen()
 
             except Exception as e:
                 print(e)
                 print("[CLIENT] Cannot connect to server.")
                 time.sleep(5)
-        self.listen()
 
     def listen(self):
         while True:
@@ -63,4 +63,4 @@ class Client:
 
     def send(self, msg):
         message = msg.encode()
-        client.send(message)
+        self.client.send(message)
