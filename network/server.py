@@ -1,9 +1,64 @@
+import time
+import asyncio
+import socketio
+import eventlet
+
+# from utilities.settings import Settings
+
+
+class Server:
+    __instance = None
+
+    @staticmethod
+    def getInstance():
+        if Server.__instance == None:
+            Server()
+        return Server.__instance
+
+    def __init__(self):
+
+        if Server.__instance != None:
+            raise Exception("This class is a singleton!")
+        else:
+            Server.__instance = self
+
+        self.clients = []
+        self.socket = socketio.Server(async_mode="eventlet")
+        self.name = "pc"  # Settings.getInstance().get("name")
+        self.server_port = 5050  # Settings.getInstance().get("serverPort")
+        self.server_addres = "192.168.0.27"  # Settings.getInstance().get("serverAdres")
+
+    def run(self):
+        print("[SERVER] Starting...")
+        self.socket.register_namespace(ServerNamespace("/"))
+        self.app = socketio.WSGIApp(self.socket)
+        eventlet.wsgi.server(eventlet.listen(("", self.server_port)), self.app)
+
+
+class ServerNamespace(socketio.Namespace):
+    def on_connect(self, sid, environ, auth):
+        if not auth in Server.getInstance().clients:
+            print("[CLIENT] Connected!")
+            Server.getInstance().clients.clients.append(auth)
+        raise ConnectionRefusedError("authentication failed")
+
+    def on_disconnect(self, sid):
+        print("[CLIENT] Disconnected!.")
+
+    async def on_command(self, sid, data):
+        await self.emit("ok", data)
+
+
+Server.getInstance().run()
+
+"""
 import json
 import socket
 import sys
 import threading
 import time
 
+import schedule
 from utilities.settings import Settings
 
 
@@ -60,6 +115,15 @@ class Server:
         conn.close()
         sys.exit()
 
+    def keep_connection(self):
+        schedule.every(5).minutes.do(self.test_connection)
+        while True:
+            schedule.run_pending()
+            time.sleep(1)
+
+    def test_connection(self):
+        print("ok")
+
     def run(self):
         self.server.listen()
         print(f"[SERVER] Server is listening on {self.port}")
@@ -83,7 +147,8 @@ class Server:
                         return False, msg, None
                 raise
             except:
+                self.clients.pop(name)
                 return False, "Cannot send command to client.", None
-                self.clients.pop(c)
         else:
             return False, "Wrong client name or clinet did not connect.", None
+"""
