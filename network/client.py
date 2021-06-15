@@ -13,7 +13,6 @@ class Client:
         self.name = Settings.getInstance().get("name")
         self.server_port = Settings.getInstance().get("serverPort")
         self.server_addres = Settings.getInstance().get("serverAdres")
-        self.connectino_msg = "HI MY NAME IS"
 
         print("[CLIENT] Starting...")
         thread = threading.Thread(name="client", target=self.connect)
@@ -26,7 +25,7 @@ class Client:
                 self.client.connect((self.server_addres, self.server_port))
                 while True:
                     try:
-                        self.send(f"{self.connectino_msg} {self.name}")
+                        self.send(f"ADD:{self.name}")
                     except Exception as e:
                         print(f"[CLIENT] {e}")
                         continue

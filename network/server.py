@@ -27,7 +27,6 @@ class Server:
         self.size = 2048
         self.port = Settings.getInstance().get("serverPort")
         self.addres = Settings.getInstance().get("serverAdres")
-        self.connectino_msg = "HI MY NAME IS"
 
         self.server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         try:
@@ -46,8 +45,11 @@ class Server:
         while left > 0:
             msg = conn.recv(self.size).decode()
             if msg:
-                if f"{self.connectino_msg} " in msg:
-                    _, name = msg.split(f"{self.connectino_msg} ")
+                try:
+                    code, name = msg.split(":", 1)
+                except:
+                    code, name = None, None
+                if code == "ADD":
                     if self.clients.get(name):
                         if self.ping(name):
                             conn.send(
@@ -61,7 +63,6 @@ class Server:
                     conn.send(str.encode("OK:Connected sucessfuly"))
                     self.clients[name] = conn
                     sys.exit()
-
         print(f"[SERVER] {addr} timeout.")
         conn.close()
         sys.exit()
