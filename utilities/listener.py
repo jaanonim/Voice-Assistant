@@ -31,17 +31,17 @@ class Listener:
         self.listen()
 
     def listen(self):
-        print("Listening...")
+        print("[ENGINE] Listening...")
         self.r.listen_in_background(self.mic, self.callback)
 
     def callback(self, r, audio):
         try:
-            print("Recognizing...")
+            print("[ENGINE] Recognizing...")
             query = r.recognize_google(audio, language="en-us")
-            print(f"User said: {query}\n")
+            print(f"[ENGINE] User said: {query}\n")
 
         except Exception as e:
-            print(f"Unable to Recognize your voice. {e}")
+            print(f"[ENGINE] Unable to Recognize your voice. {e}")
             return
 
         t = threading.Thread(

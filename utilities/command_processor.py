@@ -18,10 +18,11 @@ class CommandProcessor:
         else:
             CommandProcessor.__instance = self
 
-        print("Loading commands...")
+        print("[ENGINE] Loading commands...")
         self.commands = load_commands()
 
     def process(self, comm):
+        print("[ENGINE] ", end="")
         for c in self.commands:
             print(".", end="")
             obj = c()

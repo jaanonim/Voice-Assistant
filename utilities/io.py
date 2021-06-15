@@ -16,6 +16,6 @@ class IO:
         else:
             l = Listener(None)
             while True:
-                inp = input("INPUT: ")
+                inp = input("[INPUT] > ")
                 if inp:
                     l.proccess_command(inp, lambda: None)

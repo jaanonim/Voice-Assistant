@@ -26,4 +26,4 @@ class Speaker:
             call(["python", "utilities/speak.py", str(text)])
 
     def printMessage(self, msg):
-        print(f"OUTPUT: {msg}")
+        print(f"[OUTPUT] {msg}")
