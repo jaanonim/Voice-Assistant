@@ -1,7 +1,7 @@
 import re
 
-from utilities.loader import get_class
 from network.server import Server
+from utilities.loader import get_class
 
 
 class Command:
@@ -56,7 +56,7 @@ class Command:
             return self._execute()
 
         else:
-            return Server.getInstance().sendCommand(self.target, __name__, self.values)
+            return Server.getInstance().sendCommand(self.target, self.__class__.__name__, self.values)
 
     def _execute(self):
         pass

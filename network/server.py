@@ -24,14 +24,17 @@ class Server:
             Server.__instance = self
 
         self.clients = {}
-        self.size = 1024
+        self.size = 2048
         self.port = Settings.getInstance().get("serverPort")
         self.addres = Settings.getInstance().get("serverAdres")
         self.connectino_msg = "HI MY NAME IS"
 
         self.server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.server.bind((self.addres, self.port))
-
+        try:
+            self.server.bind((self.addres, self.port))
+        except Exception as e:
+            print(f"[SERVER] {e}")
+            exit()
         print("[SERVER] Starting...")
         thread = threading.Thread(name="server", target=self.run)
         thread.start()
@@ -46,19 +49,37 @@ class Server:
                 if f"{self.connectino_msg} " in msg:
                     _, name = msg.split(f"{self.connectino_msg} ")
                     if self.clients.get(name):
-                        conn.send(
-                            str.encode("ERR:Name is taken! Pleace selcet other name.")
-                        )
-                        left -= 1
-                    else:
-                        print(f"[SERVER] {addr} registered with name: {name}.")
-                        conn.send(str.encode("OK:Connected sucessfuly"))
-                        self.clients[name] = conn
-                        sys.exit()
+                        if self.ping(name):
+                            conn.send(
+                                str.encode(
+                                    "ERR:Name is taken! Pleace selcet other name."
+                                )
+                            )
+                            left -= 1
+                            continue
+                    print(f"[SERVER] {addr} registered with name: {name}.")
+                    conn.send(str.encode("OK:Connected sucessfuly"))
+                    self.clients[name] = conn
+                    sys.exit()
 
         print(f"[SERVER] {addr} timeout.")
         conn.close()
         sys.exit()
+
+    def ping(self, name):
+        other = self.clients.get(name)
+        try:
+            other.send(str.encode(f"PING:{name}"))
+            msg = other.recv(self.size).decode()
+            if not "OK" in msg:
+                raise
+        except:
+            print(f"[SERVER] {name} diconnected (not responding).")
+            other.close()
+            self.clients.pop(name)
+            return False
+        print(f"[SERVER] {name} is still alive.")
+        return True
 
     def run(self):
         self.server.listen()
@@ -72,18 +93,18 @@ class Server:
         c = self.clients.get(name)
         if c:
             try:
-                c.send(str.encode("COM:" + json.dump({"command": comm, "args": args})))
+                c.send(str.encode("COM:" + json.dumps({"command": comm, "args": args})))
                 msg = c.recv(self.size).decode()
                 if msg:
-                    code, info = msg.split(":")
+                    code, info = msg.split(":", 1)
                     if code == "OK":
                         data = json.loads(info)
                         return data["continue"], data["response"], None
-                    else:
-                        return False, msg, None
-                raise
-            except:
+                    return False, msg, None
+            except Exception as e:
+                print(f"[SERVER] {e}")
+                c.close()
+                self.clients.pop(name)
                 return False, "Cannot send command to client.", None
-                self.clients.pop(c)
         else:
             return False, "Wrong client name or clinet did not connect.", None
