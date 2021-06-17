@@ -1,9 +1,9 @@
 import ipaddress
 import socket
 
+import wakeonlan
 from classes.command import Command
 from utilities.settings import Settings
-from utilities.wake_on_lan import wake_up
 
 
 class StartPc(Command):
@@ -12,19 +12,27 @@ class StartPc(Command):
         self.aliases = [
             "Turn on my PC",
             "Turn on PC",
+            "Start my PC",
             "Start PC",
             "Turn on my Computer",
             "Turn on Computer",
+            "Start my Computer",
             "Start Computer",
         ]
 
     def _execute(self):
-        wake_up(
-            Settings.getInstance().get("pcMacAdres"),
-            Settings.getInstance().get("brodcastAdres"),
-        )
-        return (
-            False,
-            f"OK. Turning on PC.",
-            None,
-        )
+        try:
+            wakeonlan.send_magic_packet(
+                Settings.getInstance().get("pcMacAdres"),
+            )
+            return (
+                False,
+                f"OK. Turning on PC.",
+                None,
+            )
+        except Exception as e:
+            return (
+                False,
+                str(e),
+                None,
+            )
