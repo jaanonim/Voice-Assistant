@@ -63,6 +63,7 @@ class Server:
                     conn.send(str.encode("OK:Connected sucessfuly"))
                     self.clients[name] = conn
                     sys.exit()
+            left -= 1
         print(f"[SERVER] {addr} timeout.")
         conn.close()
         sys.exit()
