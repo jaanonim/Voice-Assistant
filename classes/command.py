@@ -20,8 +20,8 @@ class Command:
                 self.args = []
                 for i in range(0, len(args)):
                     v = re.findall(f"{reg[i]}.*{reg[i+1]}", comm)[0]
-                    v = v.replace(reg[i], "")
-                    v = v.replace(reg[i + 1], "")
+                    v = v.replace(reg[i].strip(), "")
+                    v = v.replace(reg[i + 1].strip(), "")
                     name, resp = args[i].replace("{", "").replace("}", "").split("|")
                     self.args.append((name, v, resp))
                 return True
@@ -56,7 +56,9 @@ class Command:
             return self._execute()
 
         else:
-            return Server.getInstance().sendCommand(self.target, self.__class__.__name__, self.values)
+            return Server.getInstance().sendCommand(
+                self.target, self.__class__.__name__, self.values
+            )
 
     def _execute(self):
         pass

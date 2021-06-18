@@ -3,7 +3,6 @@ import sys
 import threading
 
 import pyttsx3
-import simpleaudio as sa
 import speech_recognition as sr
 
 from .command_processor import CommandProcessor
@@ -20,7 +19,6 @@ class Listener:
         self.inputVoice = Settings.getInstance().get("inputVoice")
         self.active = False
         self.command = None
-        self.wave_obj = None
 
     def setup(self):
         self.r = sr.Recognizer()
@@ -85,20 +83,10 @@ class Listener:
             if comm:
                 self.active, self.command = CommandProcessor.getInstance().process(comm)
             else:
-                self.notify()
+                Speaker.getInstance().notify()
                 self.active = True
         if self.active == None:
             self.active = False
         if self.command:
-            self.notify()
+            Speaker.getInstance().notify()
         callback()
-
-    def notify(self):
-        if not self.inputVoice:
-            return
-        if not self.wave_obj:
-            self.wave_obj = sa.WaveObject.from_wave_file(
-                "assets/sounds/notification.wav"
-            )
-
-        self.wave_obj.play()
