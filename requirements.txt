@@ -6,3 +6,4 @@ requests
 simpleaudio
 weathercom
 wakeonlan
+wikipedia
