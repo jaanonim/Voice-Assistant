@@ -57,7 +57,7 @@ class Command:
 
         else:
             return Server.getInstance().sendCommand(
-                self.target, self.__class__.__name__, self.values
+                self.target, self.__class__.__module__, self.values
             )
 
     def _execute(self):

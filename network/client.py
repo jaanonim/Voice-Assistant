@@ -57,7 +57,7 @@ class Client:
             comm_name = data.get("command")
             not_found = True
             for item in CommandProcessor.getInstance().commands:
-                if item.__name__ == comm_name:
+                if item.__module__ == comm_name:
                     c = item()
                     c.values = data.get("args")
                     v, res, _ = c._execute()
