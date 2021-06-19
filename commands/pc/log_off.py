@@ -6,7 +6,7 @@ from classes.command import Command
 from utilities.settings import Settings
 
 
-class LogOffPc(Command):
+class LogOff(Command):
     def __init__(self):
         super().__init__()
         self.aliases = [

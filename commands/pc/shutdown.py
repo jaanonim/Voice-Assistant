@@ -6,7 +6,7 @@ from classes.command import Command
 from utilities.settings import Settings
 
 
-class ShutdownPc(Command):
+class Shutdown(Command):
     def __init__(self):
         super().__init__()
         self.aliases = [

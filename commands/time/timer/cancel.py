@@ -2,7 +2,7 @@ from classes.command import Command
 from utilities.cache import Cache
 
 
-class CancelTimer(Command):
+class Cancel(Command):
     def __init__(self):
         super().__init__()
         self.aliases = [

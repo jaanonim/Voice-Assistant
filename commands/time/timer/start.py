@@ -6,7 +6,7 @@ from utilities.cache import Cache
 from utilities.speaker import Speaker
 
 
-class Timer(Command):
+class Start(Command):
     def __init__(self):
         super().__init__()
         self.aliases = [

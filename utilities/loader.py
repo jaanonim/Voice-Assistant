@@ -13,9 +13,8 @@ def load_commands():
             for name in files:
                 if name.endswith(".py"):
                     name = name.replace(".py", "")
-                    commands.append(
-                        get_class(root.replace("\\", ".").replace("/", "."), name)
-                    )
+                    url = root.replace("\\", ".").replace("/", ".")
+                    commands.append(get_class(url, name))
 
     return commands
 
