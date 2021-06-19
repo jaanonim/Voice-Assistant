@@ -31,3 +31,4 @@ class Timer(Command):
     def setTimer(self, v):
         time.sleep(v)
         Speaker.getInstance().alarm()
+        time.sleep(10)
