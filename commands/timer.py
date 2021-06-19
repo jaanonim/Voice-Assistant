@@ -1,7 +1,8 @@
-import threading
+import multiprocessing
 import time
 
 from classes.command import Command
+from utilities.cache import Cache
 from utilities.speaker import Speaker
 
 
@@ -14,8 +15,13 @@ class Timer(Command):
 
     def _execute(self):
         v, s = self.values["time"]
-        thread = threading.Thread(name="timer", target=self.setTimer, args=(v,))
-        thread.start()
+        p = multiprocessing.Process(name="timer", target=self.setTimer, args=(v,))
+        p.start()
+        data = Cache.getInstance().get("timers")
+        if not data:
+            data = []
+        data.append(p)
+        Cache.getInstance().set("timers", data)
         return (
             False,
             f"The timer is set to {s}",
