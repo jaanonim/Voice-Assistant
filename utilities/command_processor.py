@@ -25,6 +25,10 @@ class CommandProcessor:
         print("[ENGINE] ", end="")
         for c in self.commands:
             print(".", end="")
+            if c is None:
+                raise Exception(
+                    "Sothing went wrong when command was imported!"
+                )
             obj = c()
             if obj.check(comm):
                 print("")

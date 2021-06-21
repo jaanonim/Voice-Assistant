@@ -17,7 +17,7 @@ class Time(Argument):
         values = []
         for i in range(0, len(words)):
             try:
-                n = int(words[i])
+                n = float(words[i])
             except:
                 n = None
             if n:

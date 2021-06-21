@@ -7,3 +7,6 @@ simpleaudio
 weathercom
 wakeonlan
 wikipedia
+ffpyplayer
+youtube-search-python
+PyTube
