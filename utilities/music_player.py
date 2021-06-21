@@ -37,9 +37,9 @@ class MusicPlayer:
         while True:
             if len(self.queue) > 0:
                 self.id, self.title = self.queue[0]
-                f_name = MusicDownloader.getInstance().get_file(self.id, self.title)
+                f_name = MusicDownloader.getInstance().get_file(self.id)
                 while f_name == None:
-                    f_name = MusicDownloader.getInstance().get_file(self.id, self.title)
+                    f_name = MusicDownloader.getInstance().get_file(self.id)
                     time.sleep(1)
                 self.player = MediaPlayer(f_name, volume=self.volume)
 
@@ -57,8 +57,12 @@ class MusicPlayer:
                 self.id = None
                 self.title = None
 
-    def addToQueue(self, id, name):
-        self.queue.append((id, name))
+    def add_to_queue(self, id, title):
+        self.queue.append((id, title))
+        if not MusicDownloader.getInstance().get_file(id):
+            MusicDownloader.getInstance().add_to_queue(id, title)
+            return False
+        return True
 
     def pause(self):
         if self.player:
@@ -89,7 +93,7 @@ class MusicPlayer:
         self.volume = v / 100
         if self.player:
             self.player.set_volume(self.volume)
-        return "OK"
+        return f"OK stetting volume to {self.volume}"
 
     def random(self):
         if len(self.queue) > 0:
