@@ -6,8 +6,6 @@ import time
 import requests
 from youtubesearchpython import *
 
-valid_chars = "-_.() %s%s" % (string.ascii_letters, string.digits)
-
 
 class MusicDownloader:
     __instance = None
@@ -36,10 +34,7 @@ class MusicDownloader:
     def get_id(self, name):
         try:
             data = VideosSearch(name, limit=1).result()["result"][0]
-            id = data["id"]
-            title = data["title"]
-            title = "".join(c for c in title if c in valid_chars)
-            return id, title
+            return data["id"], self.format_title(data["title"])
         except:
             return None
 
@@ -60,8 +55,11 @@ class MusicDownloader:
             if len(self.queue) > 0:
                 url, id, title = self.queue[0]
                 self.queue.pop(0)
-                print(self.queue)
                 print(f"[DOWNLO] Start downloading '{id}' ...")
                 r = requests.get(url, allow_redirects=True)
                 open(f"assets/music/{id}{title}.webm", "wb").write(r.content)
                 print(f"[DOWNLO] Done '{id}'")
+
+    def format_title(self, title):
+        valid_chars = "-_.() %s%s" % (string.ascii_letters, string.digits)
+        return "".join(c for c in title if c in valid_chars)

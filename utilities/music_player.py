@@ -3,8 +3,10 @@ import threading
 import time
 
 from ffpyplayer.player import MediaPlayer
+from youtubesearchpython import Playlist
 
 from .music_downloader import MusicDownloader
+from .settings import Settings
 
 
 class MusicPlayer:
@@ -29,7 +31,7 @@ class MusicPlayer:
         self._break = True
         self.id = None
         self.title = None
-        self.volume = 1
+        self.volume = 0.1
         thread = threading.Thread(name="music", target=self.run)
         thread.start()
 
@@ -45,17 +47,22 @@ class MusicPlayer:
 
                 val = ""
                 while val != "eof" and self._break:
+                    print(self._break)
                     frame, val = self.player.get_frame()
                     if val != "eof" and frame is not None:
                         img, t = frame
                 if len(self.queue) > 0:
                     self.queue.pop(0)
+                    self.reset()
             else:
-                del self.player
-                self._break = True
-                self.player = None
-                self.id = None
-                self.title = None
+                self.reset()
+
+    def reset(self):
+        del self.player
+        self._break = True
+        self.player = None
+        self.id = None
+        self.title = None
 
     def add_to_queue(self, id, title):
         self.queue.append((id, title))
@@ -106,3 +113,14 @@ class MusicPlayer:
             self._break = False
             return "OK"
         return "Nothing is currently playing"
+
+    def my_playlist(self):
+        videos = Playlist.get(Settings.getInstance().get("playlistUrl"))["videos"]
+        t = threading.Thread(name="playlist", target=self._my_playlist, args=(videos,))
+        t.start()
+
+    def _my_playlist(self, videos):
+        for v in videos:
+            self.add_to_queue(
+                v["id"], MusicDownloader.getInstance().format_title(v["title"])
+            )

@@ -12,6 +12,9 @@ class Command:
     def to_regex(self, alias):
         return re.split("{.*}", alias), re.findall("{.*}", alias)
 
+    def rreplace(self, s, old, new):
+        return (s[::-1].replace(old[::-1], new[::-1], 1))[::-1]
+
     def check(self, comm):
         comm = f" {comm.lower()} "
         for a in self.aliases:
@@ -20,8 +23,8 @@ class Command:
                 self.args = []
                 for i in range(0, len(args)):
                     v = re.findall(f"{reg[i]}.*{reg[i+1]}", comm)[0]
-                    v = v.replace(reg[i].strip(), "")
-                    v = v.replace(reg[i + 1].strip(), "")
+                    v = v.replace(reg[i].strip(), "", 1)
+                    v = self.rreplace(v, reg[i + 1].strip(), "")
                     name, resp = args[i].replace("{", "").replace("}", "").split("|")
                     self.args.append((name, v, resp))
                 return True

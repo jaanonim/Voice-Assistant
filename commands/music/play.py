@@ -11,6 +11,13 @@ class Play(Command):
     def _execute(self):
         to_play = self.values.get("name")
         if to_play:
+            if "my playlist" in to_play:
+                MusicPlayer.getInstance().my_playlist()
+                return (
+                    False,
+                    "OK. Playing the playlist.",
+                    None,
+                )
             d = MusicDownloader.getInstance().get_id(to_play)
             if d:
                 id, title = d
