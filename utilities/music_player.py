@@ -116,6 +116,7 @@ class MusicPlayer:
 
     def my_playlist(self):
         videos = Playlist.get(Settings.getInstance().get("playlistUrl"))["videos"]
+        random.shuffle(videos)
         t = threading.Thread(name="playlist", target=self._my_playlist, args=(videos,))
         t.start()
 

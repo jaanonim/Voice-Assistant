@@ -8,12 +8,12 @@ from utilities.settings import Settings
 
 def main():
     Settings.getInstance()
-    MusicDownloader.getInstance()
     CommandProcessor.getInstance()
     if Settings.getInstance().get("isClient"):
         Client()
     else:
         Server.getInstance()
+        MusicDownloader.getInstance()
         IO().run()
 
 
