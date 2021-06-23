@@ -4,7 +4,10 @@
     "inputVoice": true,
     "outputVoice": true,
     "weatherCity": "Cracow Poland",
-    "invocation": "robot",
+    "invocation": [
+        "jarvis",
+        "computer"
+    ],
     "pcMacAdres": "ff.ff.ff.ff.ff.ff",
     "serverPort": 5050,
     "serverAdres": "192.168.0.1",

@@ -10,11 +10,11 @@ class IO:
     def run(self):
 
         if self.inputVoice:
-            Listener(Settings.getInstance().get("invocation")).setup()
+            Listener().setup()
             while True:
                 pass
         else:
-            l = Listener(None)
+            l = Listener()
             while True:
                 inp = input("[INPUT] > ")
                 if inp:

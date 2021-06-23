@@ -10,3 +10,4 @@ wikipedia
 ffpyplayer
 youtube-search-python
 PyTube
+pvporcupine

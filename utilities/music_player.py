@@ -47,7 +47,6 @@ class MusicPlayer:
 
                 val = ""
                 while val != "eof" and self._break:
-                    print(self._break)
                     frame, val = self.player.get_frame()
                     if val != "eof" and frame is not None:
                         img, t = frame
@@ -58,7 +57,6 @@ class MusicPlayer:
                 self.reset()
 
     def reset(self):
-        del self.player
         self._break = True
         self.player = None
         self.id = None
@@ -92,6 +90,9 @@ class MusicPlayer:
     def stop(self):
         if self.player:
             self._break = False
+            self.queue = []
+            return "OK"
+        if len(self.queue) > 0:
             self.queue = []
             return "OK"
         return "Nothing is currently playing"

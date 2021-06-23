@@ -26,9 +26,7 @@ class CommandProcessor:
         for c in self.commands:
             print(".", end="")
             if c is None:
-                raise Exception(
-                    "Sothing went wrong when command was imported!"
-                )
+                raise Exception("Sothing went wrong when command was imported!")
             obj = c()
             if obj.check(comm):
                 print("")
@@ -39,3 +37,6 @@ class CommandProcessor:
                 return v, None
         print("")
         return False, None
+
+
+00
