@@ -13,3 +13,4 @@ PyTube
 pvporcupine
 keyboard
 psutil
+winshell
