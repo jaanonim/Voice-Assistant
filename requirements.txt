@@ -11,3 +11,5 @@ ffpyplayer
 youtube-search-python
 PyTube
 pvporcupine
+keyboard
+psutil
