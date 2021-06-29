@@ -57,8 +57,9 @@ class Client:
             comm_name = data.get("command")
             not_found = True
             for item in CommandProcessor.getInstance().commands:
-                if item.__module__ == comm_name:
-                    c = item()
+                com, _ = item
+                if com.__module__ == comm_name:
+                    c = com()
                     c.values = data.get("args")
                     v, res, _ = c._execute()
                     self.send("OK:" + json.dumps({"continue": v, "response": res}))

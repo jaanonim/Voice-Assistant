@@ -14,7 +14,7 @@ def load_commands():
                 if name.endswith(".py"):
                     name = name.replace(".py", "")
                     url = root.replace("\\", ".").replace("/", ".")
-                    commands.append(get_class(url, name))
+                    commands.append((get_class(url, name), url))
 
     return commands
 

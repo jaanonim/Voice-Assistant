@@ -23,10 +23,12 @@ class CommandProcessor:
 
     def process(self, comm):
         print("[ENGINE] ", end="")
-        for c in self.commands:
+        for item in self.commands:
+            c, url = item
             print(".", end="")
             if c is None:
-                raise Exception("Sothing went wrong when command was imported!")
+                print("[ENGINE] Sothing went wrong when command was imported!")
+                continue
             obj = c()
             if obj.check(comm):
                 print("")
@@ -36,7 +38,5 @@ class CommandProcessor:
                     return True, (o, obj)
                 return v, None
         print("")
+        Speaker.getInstance().speak("I didn't understend")
         return False, None
-
-
-00
