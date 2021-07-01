@@ -23,8 +23,14 @@ class MusicDownloader:
             MusicDownloader.__instance = self
 
         self.queue = []
-        self.fetcher = StreamURLFetcher()
+        self.fetcher = None
         self.thread = None
+
+        t = threading.Thread(name="getFether", target=self.get_fether)
+        t.start()
+
+    def get_fether(self):
+        self.fetcher = StreamURLFetcher()
 
     def _start(self):
         if not self.thread:
@@ -45,6 +51,8 @@ class MusicDownloader:
         return None
 
     def add_to_queue(self, id, title):
+        while not self.fetcher:
+            pass
         video = Video.get(f"https://www.youtube.com/watch?v={id}")
         url = self.fetcher.get(video, 251)
         self.queue.append((url, id, title))
