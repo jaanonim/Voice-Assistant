@@ -2,6 +2,7 @@ import re
 
 from network.server import Server
 from utilities.loader import get_class
+from utilities.settings import Settings
 
 
 class Command:
@@ -55,7 +56,7 @@ class Command:
         return self.exec_target()
 
     def exec_target(self):
-        if self.target == "server":
+        if self.target == "server" or self.target == Settings.getInstance().get("name"):
             return self._execute()
 
         else:
